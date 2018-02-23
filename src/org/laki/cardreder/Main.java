@@ -16,7 +16,7 @@ public class Main {
         } catch (CardException e) {
             e.printStackTrace();
         }
-        CardTerminal terminal = terminals.get(0);
+        CardTerminal terminal = terminals.get(1);
         // establish a connection with the card
         Card card=null;
         try {
@@ -24,6 +24,7 @@ public class Main {
             System.out.println("card: " + card);
         } catch (CardException e) {
             e.printStackTrace();
+            System.out.println("Card Connection error");
             System.out.println(e.getCause());
         }
         byte[] apduCommand=new byte[]{(byte)0x00,(byte)0xA4,(byte)0x04,(byte) 0x0C,(byte) 0x6,(byte)0xD2,(byte)0x76,
@@ -32,7 +33,8 @@ public class Main {
         String apdu="00b08200000255";
         String redaApdu="00A4040006D27600000101";
         CardChannel channel = card.getBasicChannel();
-        CommandAPDU command=new CommandAPDU(apduCommand);
+       // CommandAPDU command=new CommandAPDU(apduCommand);
+        CommandAPDU command=new CommandAPDU(getByteBuff(redaApdu));
 
        ResponseAPDU r = null;
         try {
@@ -44,7 +46,7 @@ public class Main {
         }
 
         
-//        System.out.println("response: " + (r.getBytes().toString()));
+       System.out.println("response: " + (r.getBytes().toString()));
         // disconnect
 
 
